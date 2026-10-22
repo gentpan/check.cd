@@ -1,0 +1,12 @@
+node_modules
+.output
+.nitro
+.tanstack
+.git
+.env
+.env.*
+!.env.example
+data
+docs/images
+*.pem
+.DS_Store

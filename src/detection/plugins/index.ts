@@ -1,19 +1,13 @@
-// CheckCC 的检测插件注册入口，用于汇总浏览器环境、语言、时区和字体等检测插件。
+// CheckCC 的检测插件注册入口，用于汇总浏览器身份、设备指纹、运行时与一致性校验四大插件。
 import type { DetectionPlugin } from "../plugin";
-import { browserEnvironmentPlugin } from "./browser-environment";
-import { emojiStylePlugin } from "./emoji-style";
-import { languagePlugin } from "./language";
-import { languageVariantPlugin } from "./language-variant";
-import { localePlugin } from "./locale";
-import { timezonePlugin } from "./timezone";
-import { timezoneOffsetPlugin } from "./timezone-offset";
+import { browserIdentityPlugin } from "./browser-identity";
+import { consistencyPlugin } from "./consistency";
+import { deviceFingerprintPlugin } from "./device";
+import { runtimePlugin } from "./runtime";
 
 export const detectionPlugins: DetectionPlugin[] = [
-  timezonePlugin,
-  languagePlugin,
-  languageVariantPlugin,
-  localePlugin,
-  timezoneOffsetPlugin,
-  emojiStylePlugin,
-  browserEnvironmentPlugin,
+  browserIdentityPlugin,
+  deviceFingerprintPlugin,
+  runtimePlugin,
+  consistencyPlugin,
 ];

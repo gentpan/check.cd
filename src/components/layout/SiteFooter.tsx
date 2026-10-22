@@ -1,32 +1,95 @@
-// CheckCC 的站点页脚组件，用于展示项目说明、官网链接、GitHub 入口和底部提示信息。
-import { messages, type LocaleCode } from "@/i18n/messages";
+// Compact shared footer. Policy lists stay inspectable without repeating a long page.
+import { useRouterState } from "@tanstack/react-router";
+import { Flag } from "@/components/Flag";
+import { claudeAccessCopy } from "@/i18n/claude-access";
+import { localeRoutes, type LocaleCode } from "@/i18n/messages";
+import { CLAUDE_BLOCKED_HIGHLIGHT, CLAUDE_REGION_POLICY, countryName, orderedCountries } from "@/lib/claude-regions";
+import { footerCopy } from "@/i18n/footer";
+import { currentPage, localeHref } from "@/lib/site";
 
-const pageMax = "mx-auto w-full max-w-[1440px] px-5 md:px-8 2xl:max-w-[1536px] min-[1800px]:max-w-[1760px] min-[1920px]:max-w-[1920px] min-[2400px]:max-w-[2200px]";
+const policyCopy = {
+  zh: { methodology: "检测方法与准确性", reviewed: "资料核对", future: "未来公告生效", conflicts: "来源存在差异，以下地区暂列待核对", sources: "核对官方资料", claude: "Claude 当前地区说明", api: "API 当前地区说明", announced: "未来生效公告", announcementNote: "未来公告单独记录，未提前套用；生效后仍需重新审核。", expand: "展开清单与资料来源", language: "语言" },
+  "zh-HK": { methodology: "檢測方法與準確性", reviewed: "資料核對", future: "未來公告生效", conflicts: "來源存在差異，以下地區暫列待核對", sources: "核對官方資料", claude: "Claude 現行地區說明", api: "API 現行地區說明", announced: "未來生效公告", announcementNote: "未來公告獨立記錄，未提前套用；生效後仍需重新審核。", expand: "展開清單與資料來源", language: "語言" },
+  en: { methodology: "Methodology & accuracy", reviewed: "Reviewed", future: "Future announcement effective", conflicts: "Sources differ; these regions need review", sources: "Official sources", claude: "Current Claude regions", api: "Current API regions", announced: "Future announcement", announcementNote: "The future announcement is recorded separately, without early application. It requires another review after its effective date.", expand: "View lists and sources", language: "Languages" },
+  ru: { methodology: "Методика и точность", reviewed: "Проверено", future: "Дата будущих правил", conflicts: "Источники различаются; требуется проверка этих регионов", sources: "Официальные источники", claude: "Текущие регионы Claude", api: "Текущие регионы API", announced: "Будущие правила", announcementNote: "Будущие правила учтены отдельно и не применяются заранее. После даты вступления требуется повторная проверка.", expand: "Список и источники", language: "Языки" },
+};
 
-export function SiteFooter({ locale = "zh" }: { locale?: LocaleCode }) {
-  const copy = messages[locale].footer;
+export function SiteFooter({ locale = "zh", minimal = true }: { locale?: LocaleCode; minimal?: boolean }) {
+  const copy = footerCopy[locale];
+  const policy = policyCopy[locale];
+  const access = claudeAccessCopy[locale];
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const page = currentPage(pathname);
+  const menuLinks = [
+    { href: localeHref(locale), label: copy.environment },
+    { href: "/articles", label: copy.articles },
+    { href: "/news", label: copy.news },
+    { href: "/status", label: copy.status },
+  ];
+  const helpLinks = [
+    { href: "/methodology", label: policy.methodology },
+    { href: "#supported-countries", label: copy.regions },
+    { href: localeHref(locale, "faq"), label: copy.faq },
+    { href: localeHref(locale, "privacy"), label: copy.privacy },
+  ];
+  const allowed = orderedCountries(locale);
+  const countryCells = (codes: readonly string[], restricted = false) => codes.map((code) => (
+    <li key={code} data-country={code} className={`squircle country-cell${restricted ? " country-cell-restricted" : ""}`}>
+      <Flag code={code} /><span className={code === "VC" || code === "BA" ? "country-name-long" : undefined}>{countryName(code, locale)}</span>
+    </li>
+  ));
   return (
-    <footer className="mt-20 border-t border-stone-200 bg-[#fffaf3]">
-      <div className={`${pageMax} grid gap-8 py-10 lg:grid-cols-[1.15fr_0.85fr]`}>
-        <section>
-          <a href="https://checkcc.org" target="_blank" rel="noreferrer" className="inline-flex text-2xl font-black text-[#0b1220] transition hover:text-[#d97757]">{copy.title}</a>
-          <p className="mt-4 max-w-4xl leading-8 text-stone-600">{copy.desc}</p>
-        </section>
-        <section className="text-sm leading-7 text-stone-600 lg:text-right">
-          <div className="font-black text-[#0b1220]">{copy.infoTitle}</div>
-          <div className="mt-3 flex items-center gap-3 lg:justify-end">
-            <a href="https://checkcc.org" target="_blank" rel="noreferrer" className="font-black text-[#d97757] transition hover:text-[#0b1220]">https://checkcc.org</a>
-            <a href="https://github.com/yacuo/check-cc" target="_blank" rel="noreferrer" aria-label="GitHub" className="grid size-9 place-items-center rounded-full bg-white text-[#0b1220] ring-1 ring-stone-200 transition hover:text-[#d97757] hover:ring-[#d97757]/40">
-              <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.589 2 12.253c0 4.53 2.865 8.371 6.839 9.727.5.094.683-.222.683-.494 0-.244-.009-.89-.014-1.747-2.782.62-3.369-1.375-3.369-1.375-.455-1.185-1.11-1.5-1.11-1.5-.908-.636.069-.623.069-.623 1.004.073 1.532 1.057 1.532 1.057.892 1.568 2.341 1.115 2.91.853.091-.662.35-1.115.636-1.371-2.221-.259-4.555-1.138-4.555-5.066 0-1.119.39-2.034 1.03-2.751-.103-.26-.446-1.302.098-2.714 0 0 .84-.276 2.75 1.05A9.37 9.37 0 0 1 12 6.957a9.36 9.36 0 0 1 2.504.345c1.909-1.326 2.747-1.05 2.747-1.05.546 1.412.203 2.454.1 2.714.641.717 1.029 1.632 1.029 2.751 0 3.938-2.337 4.804-4.566 5.058.359.317.679.943.679 1.9 0 1.371-.012 2.477-.012 2.813 0 .274.18.593.688.492C19.138 20.62 22 16.782 22 12.253 22 6.589 17.523 2 12 2Z" /></svg>
-            </a>
-          </div>
-          <p>{copy.feature}</p>
-          <p>{copy.note}</p>
-          <p className="mt-3">
-            本项目开发资源及 AI Token 消耗由全球 AI Token 综合对比 <a href="https://tokenplan.vip/" target="_blank" rel="friend noopener noreferrer" className="font-bold text-[#c05f3c] transition hover:text-[#d97757]">tokenplan.vip</a> 赞助提供。
-          </p>
-        </section>
-      </div>
-    </footer>
+    <>
+      <section id="supported-countries" aria-label={access.footerTitle} className="site-region-section">
+        <div className="site-container">
+          <details className="squircle site-region-panel">
+            <summary className="site-region-summary">
+              <span className="site-region-summary-copy"><span className="site-region-title">{access.footerTitle}</span><span className="site-region-meta">{policy.reviewed} <time dateTime={CLAUDE_REGION_POLICY.checkedAt}>{CLAUDE_REGION_POLICY.checkedAt}</time></span></span>
+              <span className="site-region-summary-action"><span>{policy.expand}</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></span>
+            </summary>
+            <div className="site-region-content">
+              <p>{access.note}</p>
+              <div className="squircle site-policy-notice">
+                <p><strong>{policy.future} <time dateTime={CLAUDE_REGION_POLICY.announced.effectiveAt}>{CLAUDE_REGION_POLICY.announced.effectiveAt}</time></strong></p>
+                <p>{policy.announcementNote}</p>
+              </div>
+              <h3>{policy.conflicts}</h3>
+              <ul className="country-grid site-country-conflicts">{countryCells(CLAUDE_REGION_POLICY.conflictCodes)}</ul>
+              <p>{access.ukraine}</p>
+              <h3>{access.blockedTitle}</h3>
+              <ul className="country-grid">{countryCells(CLAUDE_BLOCKED_HIGHLIGHT, true)}</ul>
+              <details className="site-allowed-countries">
+                <summary className="squircle region-toggle"><span>{access.allowedTitle}</span><span className="site-country-count">{allowed.length}</span><span aria-hidden="true">＋</span></summary>
+                <ul className="country-grid">{countryCells(allowed)}</ul>
+              </details>
+              <nav aria-label={policy.sources} className="site-policy-sources">
+                <a href={CLAUDE_REGION_POLICY.currentSources.claude} target="_blank" rel="noreferrer">{policy.claude} ↗</a>
+                <a href={CLAUDE_REGION_POLICY.currentSources.api} target="_blank" rel="noreferrer">{policy.api} ↗</a>
+                <a href={CLAUDE_REGION_POLICY.announced.source} target="_blank" rel="noreferrer">{policy.announced} ↗</a>
+              </nav>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <footer className={`site-footer scenic-footer overflow-x-hidden border-t border-line${minimal ? " minimal-footer" : ""}`}>
+        <div className="footer-landscape">
+          <div className="footer-landscape-info"><div className="site-container footer-content-grid">
+            <section>
+              <a href={localeHref(locale)} className="footer-brand" aria-label="Check Claude · check.cd"><span className="footer-brand-symbol" aria-hidden="true" /><span>Check <strong>Claude</strong></span></a>
+              <p className="site-footer-description">{copy.description}</p>
+              <nav aria-label={policy.language} className="site-footer-languages">
+                {(Object.keys(localeRoutes) as LocaleCode[]).filter((code) => code !== "zh-HK").map((code) => <a key={code} href={localeHref(code, page)} lang={localeRoutes[code].lang} hrefLang={localeRoutes[code].lang} aria-current={code === locale ? "true" : undefined}>{localeRoutes[code].label}</a>)}
+              </nav>
+            </section>
+            <nav aria-label={copy.menuTitle} className="footer-menu"><h2>{copy.menuTitle}</h2>{menuLinks.map((item) => <a key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>{item.label}</a>)}</nav>
+            <nav aria-label={copy.helpTitle} className="footer-menu"><h2>{copy.helpTitle}</h2>{helpLinks.map((item) => <a key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>{item.label}</a>)}</nav>
+          </div></div>
+          {!minimal && <div className="footer-landscape-art"><img src="/footer-backgrounds/cartoon-valley-short-20261014.webp" alt="" width="1920" height="448" loading="lazy" decoding="async" className="footer-landscape-image" /><span className="footer-logo-watermark" aria-hidden="true" /></div>}
+          {!minimal && <div className="footer-landscape-shade" aria-hidden="true" />}
+          <div className="footer-landscape-legal"><div className="site-container">{copy.legal}</div></div>
+        </div>
+      </footer>
+    </>
   );
 }

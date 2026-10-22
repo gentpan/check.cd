@@ -18,6 +18,12 @@
 /.next/
 /out/
 
+# tanstack start / vite
+.output/
+.tanstack/
+dist/
+.nitro/
+
 # production
 /build
 
@@ -45,3 +51,8 @@ yarn-error.log*
 
 # local overrides
 *.local
+
+# Runtime news database
+/data/
+
+/.data/

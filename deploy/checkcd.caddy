@@ -1,0 +1,30 @@
+# App .env.local: TRUST_PROXY_HEADER=x-real-ip
+# Keep port 3000 private; compose.yaml publishes it only on 127.0.0.1.
+# With direct ingress, {client_ip} is the actual peer and ignores spoofed headers.
+# When behind Cloudflare, FIRST configure Caddy's existing global servers block:
+#   trusted_proxies static <current Cloudflare IPv4 and IPv6 CIDRs>
+#   trusted_proxies_strict
+#   client_ip_headers CF-Connecting-IP
+# Obtain those ranges from https://www.cloudflare.com/ips/ and keep them updated.
+# Never trust all peers, or arbitrary client-supplied forwarding chains. Without
+# the CDN trust configuration the reported address would be a CDN edge IP.
+# https://caddyserver.com/docs/caddyfile/options#trusted-proxies
+check.cd, www.check.cd {
+    encode zstd gzip
+    request_body {
+        max_size 128KB
+    }
+    reverse_proxy 127.0.0.1:3000 {
+        # The app trusts only this normalized single address, not a header chain.
+        header_up X-Real-IP {client_ip}
+        header_up X-Forwarded-For {client_ip}
+        header_up -CF-Connecting-IP
+        transport http {
+            read_timeout 240s
+        }
+    }
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+}

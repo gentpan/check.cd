@@ -1,0 +1,23 @@
+[Unit]
+Description=check.cd Claude checker
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+User=checkcd
+WorkingDirectory=/opt/checkcd/current
+EnvironmentFile=/etc/checkcd.env
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=3000
+Environment=NEWS_DATA_PATH=/var/lib/checkcd/news.json
+ExecStart=/opt/checkcd/node/bin/node /opt/checkcd/current/.output/server/index.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/checkcd
+[Install]
+WantedBy=multi-user.target

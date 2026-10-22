@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-10-17T18:17:50.972Z",
+  "scope": "Two low-frequency read-only captures on the same current machine; no physical multi-network sample established.",
+  "routingContext": {
+    "proxyEnvironmentVariablesPresent": false,
+    "projectDnsClassification": "198.18.0.0/15 benchmark range; possible Fake-IP/TUN",
+    "nativeDirectConnection": "not-established",
+    "systemProxyVpnOrTunChanged": false
+  },
+  "exitIdentity": {"maskedAddress": "38.77.…", "addressId": "6d111ea45691cc14", "family": 4},
+  "observations": [
+    {"method": "HTTPS ipify", "requestedFamily": 4, "transportFamily": 4, "status": "pass", "addressId": "6d111ea45691cc14", "elapsedMs": 732},
+    {"method": "HTTPS ipify", "requestedFamily": 6, "transportFamily": 4, "status": "fail", "reason": "ECONNRESET", "elapsedMs": 1612},
+    {"method": "Cloudflare UDP STUN", "requestedFamily": 4, "transportFamily": 4, "observedAddressFamily": 4, "status": "pass", "sameAsHttpsV4": true, "elapsedMs": 539},
+    {"method": "Google UDP STUN", "requestedFamily": 4, "transportFamily": 4, "observedAddressFamily": 4, "status": "pass", "sameAsHttpsV4": true, "elapsedMs": 544},
+    {"method": "Cloudflare UDP STUN", "requestedFamily": 6, "transportFamily": 4, "observedAddressFamily": 4, "status": "fail", "reason": "REQUESTED_PUBLIC_ADDRESS_FAMILY_NOT_OBSERVED", "capturedEvidence": "IPv4 STUN response; not evidence of public IPv6 availability", "elapsedMs": 568},
+    {"method": "Google UDP STUN", "requestedFamily": 6, "transportFamily": 4, "observedAddressFamily": 4, "status": "fail", "reason": "REQUESTED_PUBLIC_ADDRESS_FAMILY_NOT_OBSERVED", "capturedEvidence": "IPv4 STUN response; not evidence of public IPv6 availability", "elapsedMs": 577}
+  ],
+  "ipinfo": {"status": "skip", "reason": "IPINFO_TOKEN_MISSING", "configuredTier": "lite", "credentialSearchedOutsideProject": false},
+  "browserWebRtcTested": false,
+  "productionConfigurationChanged": false,
+  "networkTestingStopped": "User deferred IPinfo configuration and requested style work first. No further external probes were run after that instruction.",
+  "scriptValidation": {"syntax": "pass", "withoutLiveFlag": "skip without external requests", "familyStatusCorrection": "Applied statically after these captures; no additional network capture performed."},
+  "limits": [
+    "Pass means a valid observation completed, not that the network or vendor classification is ground truth.",
+    "No native IPv6 public route was observed here; this does not establish universal IPv6 unavailability.",
+    "Command-line UDP STUN does not test browser ICE privacy settings.",
+    "Absent proxy environment variables do not rule out system proxy, VPN, TUN or Fake-IP routing.",
+    "This sample cannot establish cross-ISP, cellular, VPN, split-routing or physical multi-network accuracy.",
+    "No real IPinfo provider query or subscription-plan validation was performed."
+  ]
+}

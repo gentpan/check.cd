@@ -1,153 +1,124 @@
-<!-- CheckCC 中文项目说明文档，用于向开源用户介绍项目用途、在线体验、检测能力与部署方式。 -->
-# CheckCC｜Claude Code 环境检测、封号检查风险与运行环境IP纯净度检测
+# CheckCC｜网络与浏览器环境检查
 
 [中文](README.md) | [English](README.en.md)
 
-<p align="center">
-  <img src="./docs/images/cn/checkcc-homepage.png?v=070801" alt="CheckCC 首页" width="900" />
-</p>
+[check.cd](https://check.cd) 记录本次访问本站的网络出口、浏览器报告的设置与能力，并提供可选的所在地确认、公开使用条件核对和 Claude 官方状态。它不读取 Claude 账号，不提供账号安全认证，也不预测封禁概率。
 
-[CheckCC.org](https://checkcc.org) 是一个 Claude 运行环境检测与账号风险分析工具，面向正在注册 Claude 账号、订阅 Claude Pro、申请 Claude API、使用 Claude Code，或担心 Claude 封号、账号受限、订阅失败的用户。
+项目来源：[yacuo/check-cc](https://github.com/yacuo/check-cc)。原有截图位于 `docs/images/`，属于历史界面，不能作为当前功能或准确性的依据。
 
-项目通过浏览器指纹、系统时区、语言偏好、Intl Locale、User-Agent、运行容器、设备环境、网络出口和地区画像等信号，分析当前环境是否存在冲突，帮助用户提前识别 Claude 高风险环境、封禁前异常信号、账号受限风险、Claude Pro 订阅风险、Claude API 申请风险和 Claude Code 使用环境风险。
+## 怎样读结果
 
-## 官方在线体验：<https://checkcc.org>
+- **数据覆盖率**：当前启用检测中取得结果的比例，不是通过率、准确率或账号安全分。
+- **实测**：本次连接与浏览器自报值，只说明这轮采样。
+- **推断**：IP 归属、字体与平台比较等有来源和能力限制，不证明真实所在地或账号资格。
+- **未知**：未配置情报、套餐不提供字段、权限限制、超时和来源冲突保留未知，不补成正常或零风险。
 
-- GitHub 项目主页：<https://github.com/yacuo/check-cc>
+检测项数量由 `src/detection/config/signals.ts` 的启用配置决定。语言、中文字体、时区、屏幕、低核数、触摸、软件 GPU、Canvas/音频限制和空插件列表，不据此推导封禁风险。无需为检测结果修改语言、伪装时区或关闭隐私保护。
 
-### 即将发布：一键修复 Claude 环境，降低封禁，桌面端，修复程序
+完整的数据来源、获取方式、误差、自动回归和真实浏览器验收见 [检测准确性手册](docs/detection-accuracy.md)。自动测试通过不代表现实世界定位准确率或封禁预测能力。
 
-#### Star 本项目，第一时间收到，修复程序，发布更新。  
+## 检测范围与数据获取
 
-#### MacOS / Windows / Linux 免费三端修复，桌面端应用，正在内测 
-
-想第一时间用上，先点 Star，绝对靠谱。
-
-<p align="center">
-  <img src="https://checkcc.org/Check-CC-Lock.png" alt="Check CC Lock 桌面端预览" width="900" />
-</p>
-
-
-## 资源支持
-
-本项目开发资源及 AI Token 消耗由全球 AI Token 综合对比 <https://tokenplan.vip>（tokenplan.vip）赞助提供。
-
-## 项目截图
-
-### 检测指标示例
-
-<p align="center">
-  <img src="./docs/images/cn/checkcc-detection-signals.png?v=070801" alt="CheckCC 检测指标示例" width="900" />
-</p>
-
-| 检测原理 | 重点检测地区 |
+| 范围 | 获取方式与边界 |
 | --- | --- |
-| <img src="./docs/images/cn/checkcc-detection-principles.png?v=070801" alt="CheckCC 检测原理" width="430" /> | <img src="./docs/images/cn/checkcc-supported-regions.png?v=070801" alt="CheckCC 重点检测地区" width="430" /> |
+| 网络出口 | 从实际连接或明确配置的可信代理头识别访问本站的公网地址。无法确认时显示未知，不查询服务器自己的出口代替访客。 |
+| IP 情报 | 服务端使用 IPinfo 授权 API。Lite 提供国家、ASN 等基础字段；其它字段仅在套餐和响应确实提供时使用。未配置 token 时保留已确认出口，情报字段未知。 |
+| WebRTC | 通过配置的 STUN 服务观察本轮候选地址与状态。不同地址可能来自双栈、NAT、分流或不同路由，不自动判定为泄漏；无候选不证明没有其它路径。 |
+| 浏览器与设备 | 本地读取 UA、可用 UA-CH、语言、Intl、时区、屏幕 CSS 像素、逻辑处理器、近似内存和触摸；字体与 Emoji 属于启发式线索，Canvas、WebGL、离线音频用于能力诊断。 |
+| 运行时与一致性 | 记录明确自动化标记、权限和存储状态；等待依赖探针完成后再比较自报值。差异仅是技术观察，不是账号判定。 |
+| 实际所在地 | 只有用户点击并授权后请求定位；坐标仅在本页与本地国家边界比较。精度不足、边界附近、无法匹配保持不确定。 |
+| 使用条件 | 可跳过问卷，按公开地区、产品、支付与核验规则核对用户自述；不从浏览器还原注册历史或停用原因。 |
+| 官方状态 | 获取 Claude 官方公开服务状态。官方服务正常不保证个人可登录，也不是浏览器到 Claude 的连通测试。 |
 
-## CheckCC 问题反馈群
+当前 IPinfo 接口不提供本站所需的“纯净度分”“封禁概率”或“AI 订阅资格”认证，缺失字段不会自行编造。地区资料区分来源、产品和生效日期；新闻自动更新不会自动改写检查规则。
 
-| 2 群 |
-| :---: |
-| <img src="https://cdn.ddkk.com/images/weixin/checkcc/081002.png" alt="CheckCC 问题反馈 2 群" width="220" /> |
+## 技术栈与页面
 
-## 项目说明
+TanStack Start / TanStack Router、React、TypeScript、Vite / Nitro Node.js 服务端、Tailwind CSS、pnpm。默认构建不是纯静态网站；其它托管目标需自行配置并验证对应 Nitro 适配器。
 
-[CheckCC](https://checkcc.org) 适合用于学习、二次开发和自部署。项目专注于 Claude 使用前后的环境风险提示，不读取 Claude 账号内容，不替代 Claude 或 Anthropic 的官方判断。
+- `/`：环境检查、可选所在地与使用条件核对。
+- `/articles`：地区、支付、身份验证、网络与使用规则等基础文章。
+- `/news` 与 `/news/<id>`：新闻来源、发布日期及已知生效日期。
+- `/status` 与 `/status/<id>`：Claude 官方组件、事件与时间线。
+- `/admin`：新闻管理、发布状态与自动更新设置。
+- `/api/news-refresh`：外部定时任务 POST 接口，需 `Authorization: Bearer <ADMIN_TOKEN>`；GET 不触发更新。
 
-**若你基于本项目进行二次开发、重新部署或发布衍生版本，请保留原始版权、开源许可声明与项目来源：<https://github.com/yacuo/check-cc.git>**
+界面采用白橙与黑橙主题。按钮、标签和卡片使用原生 `corner-shape: squircle`，不支持时使用 `0.54 × --sq-r` 普通圆角降级。语言资料包含简体中文、粤语、俄语与英语；实际语言入口以当前路由为准。
 
-## 技术原理
+## 本地运行与检查
 
-Claude 账号风险并非由单一 IP 或地区因素决定，而是由浏览器指纹、系统时区、语言偏好、网络出口、运行容器、设备环境和支付环境等多维信号共同构成环境画像。[CheckCC](https://checkcc.org) 内置 40+ 项环境检测维度，通过客户端环境采样、服务端请求分析、IP 情报识别、运行时特征识别和信号一致性校验，将分散的技术指标聚合为可读的风险判断，辅助识别 Claude 封号风险、账号受限风险、Claude Pro 订阅风险、Claude API 申请风险和 Claude Code 使用环境风险。
-
-核心检测维度包括：
-
-- **浏览器语言**：判断浏览器首选语言是否和使用地区一致。
-- **系统时区**：判断系统时区是否和地区画像匹配。
-- **Intl Locale**：检查 JavaScript 国际化环境是否暴露异常语言或地区特征。
-- **User-Agent**：识别浏览器、系统和客户端容器特征。
-- **运行容器**：判断是否存在 WebView、自动化环境、异常客户端等特征。
-- **信号一致性**：综合判断语言、时区、地区和浏览器环境是否互相矛盾。
-
-这些信号不能证明账号一定安全或一定会被限制，但可以帮助用户提前发现明显的环境画像冲突。
-
-## 如何降低封号风险
-
-[CheckCC](https://checkcc.org) 检测结果仅供参考，不代表 Claude 或 Anthropic 官方结论。使用 Claude、Claude Code、Claude Pro 或申请 Claude API 前，可以先检查运行环境。
-
-一般建议：
-
-- 尽量保持 IP、系统时区、浏览器语言和账号地区一致。
-- 避免频繁切换国家、代理节点、设备和浏览器环境。
-- 避免在 WebView、自动化浏览器、异常客户端或不稳定容器中登录账号。
-- 订阅 Claude Pro、申请 Claude API 或使用 Claude Code 前，先检查运行环境。
-- 如果检测到高风险信号，先调整环境，再继续登录、订阅或申请相关服务。
-- 尽量使用长期稳定的网络出口和一致的设备环境，减少账号画像剧烈变化。
-
-## 技术栈
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- pnpm
-
-## 功能特性
-
-- 40+ 环境信号检测与风险提示
-- 浏览器端环境采样与运行时特征识别
-- Claude Web、Pro、API、Claude Code 使用前环境检查
-- 多语言页面结构与响应式 UI
-- 适合学习、二次开发和自部署
-
-## 隐私说明
-
-项目默认只做浏览器本地环境检测：
-
-- 不需要登录 Claude
-- 不读取 Claude 账号
-- 不读取密码
-- 不读取 Cookie
-- 不读取聊天内容
-- 不默认上传检测结果
-
-## 快速开始
+需要 Node.js **22.18+** 和 pnpm。
 
 ```bash
-pnpm install
+cp .env.example .env.local
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-打开：<http://localhost:3000>
-
-## 构建
+打开 [本地页面](http://localhost:3000)。本地回环连接没有可确认的访客公网出口时，出口与情报显示未知，这是预期行为；浏览器采样仍可运行。
 
 ```bash
+pnpm typecheck
+pnpm test
 pnpm build
 pnpm start
 ```
 
-## 自部署说明
+`pnpm dev` 和 `pnpm start` 加载 `.env.local`；生产环境也可直接注入变量。构建输出为 `.output`，入口为 `.output/server/index.mjs`。不要将服务端密钥加上 `VITE_` 前缀或提交 `.env.local`。
 
-你可以将本项目部署到 Vercel、Cloudflare Pages、Netlify 或自己的服务器，也可以根据需求扩展检测规则、页面样式和部署方式。
+## 服务端配置
 
-## 适用场景
+| 变量 | 用途 |
+| --- | --- |
+| `IPINFO_TOKEN` | 可选，IPinfo 授权 API token。未配置不调用情报服务，已确认出口仍保留。 |
+| `IPINFO_TIER` | 默认 `lite`；可用 `lite` / `core` / `plus` / `max`，必须匹配实际授权套餐。未返回的国家、类型或标记保持未知。 |
+| `TRUST_PROXY_HEADER` | 默认空，仅信任实际连接地址。只有可信入口会覆盖该头且源站禁止绕过入口直连时，才明确设置 `x-real-ip`、`cf-connecting-ip` 或 `x-forwarded-for`。 |
+| `ANTHROPIC_API_KEY` | 可选，用于手动技术摘要、单项注释及已启用的新闻/状态内容处理。未配置时不会调用模型；界面区分规则解读与 AI。 |
+| `ANTHROPIC_MODEL` | 模型标识，默认见 `.env.example`；须为部署账号实际可用的模型。 |
+| `ADMIN_TOKEN` | 至少 32 字符的随机值，用于管理后台和受保护更新接口。 |
+| `NEWS_AUTO_UPDATE` | 首次初始化是否启用自动新闻；之后以后台保存设置为准。 |
+| `NEWS_DATA_PATH` | 新闻库路径，默认 `data/news.json`；生产应放在持久化目录。 |
 
-- 学习浏览器环境检测
-- 研究 Claude 运行环境风险提示
-- 搭建自用环境检测页面
-- 作为开源项目二次开发基础
+可信代理必须**覆盖**客户端传入头，并向选定头写入恰好一个已确认公网地址。应用不从任意转发链中挑选第一个公网 IP；逗号分隔链会被拒绝。启用头信任本身不会认证代理，网络防火墙、监听地址和反向代理配置必须共同保证可信边界。Cloudflare 回源须在入口验证官方代理地址段，再转交真实客户端地址。
 
-## 免责声明
+## Docker 与 VPS 部署
 
-[CheckCC](https://checkcc.org) 的检测结果仅基于浏览器本地环境信号进行风险提示，不代表 Claude 或 Anthropic 官方判断。请勿将检测结果作为账号安全、订阅状态或申诉结果的唯一依据。
+项目提供 `Dockerfile` 和 `compose.yaml`：
 
-## 开源协议
+```bash
+docker compose up -d --build
+docker compose logs --tail=100 checkcd
+```
 
-本项目基于 MIT 协议开源，Copyright © yacuo / CheckCC。
+Compose 从 `.env.local` 读取变量，将应用端口绑定到宿主机 `127.0.0.1:3000`，新闻库保存在 `news-data` 持久卷。由 HTTPS 反向代理暴露服务。按实际入口设置 `TRUST_PROXY_HEADER`，不要把 Docker 或私网代理地址当作访客公网出口。
 
-你可以自由使用、修改与再分发本项目。
+现有 VPS 部署采用独立 systemd 服务与 Caddy；`deploy/checkcd.caddy` 是模板，接入前应核对入口的可信代理配置。
 
-任何副本、二次开发版本、自部署站点或项目的实质性部分，都必须保留原始版权与许可声明，并注明来源：<https://github.com/yacuo/check-cc.git>
+- 服务：`/etc/systemd/system/checkcd.service`。
+- 服务端配置：`/etc/checkcd.env`，仅管理员可读。
+- 应用版本：`/opt/checkcd/releases`，`/opt/checkcd/current/.output` 指向当前版本。
+- 持久数据：`/var/lib/checkcd/news.json`，由 `checkcd` 服务用户写入。
+- Node：`/opt/checkcd/node/bin/node`。
+- 现有 Caddy 站点：`/etc/caddy/ip-projects-ogden.caddy`。
 
-如果你重新部署本项目，请保留页脚署名或仓库链接，方便访问者找到原项目。
+更新时在独立 release 放入新 `.output`，切换 `current` 链接并重启 `checkcd`。密钥和新闻库留在 release 外；发布后检查页面、健康状态、访客地址来源和未知降级。源码改动不代表已经部署到线上。
+
+## 新闻与服务状态
+
+常驻 Node 服务每分钟检查新闻更新计划，默认间隔 24 小时，后台可设置 6–168 小时；外部定时任务也可调用受保护的 POST 接口。搜索与整理依赖配置的模型服务；非官方来源进入审核，失败保留已有发布内容。标题链接进入本站详情，原始来源放在文末。不要将检索覆盖理解为全网覆盖。
+
+新闻库必须持久保存，并保持单个 Node 进程负责写入。多实例、无服务器或会休眠的主机应改用共享数据库与外部定时器。应用关闭时，本地定时器不会继续运行。
+
+`/status` 获取 `status.claude.com` 官方接口，缓存并合并并发请求；页面可见时定期刷新。失败时历史数据标记过期，首次失败保持未知。中文翻译缓存于新闻库同目录的 `status-translations.json`，跨发布保留；翻译失败明确提示，原始来源仍可核对。
+
+## 隐私
+
+基础浏览器采样不需要 Claude 登录，不读取聊天、密码或账号 Cookie。已配置 IPinfo 时，服务端会向供应商提交查询的公网地址；WebRTC 会联系 STUN。定位仅在按钮触发并授权后运行，坐标本地匹配，不上传本站服务器或 AI，不持久保存。
+
+技术总结和单项 AI 注释**仅在点击对应按钮后**触发；发送相应技术结果，不包含可选问卷、定位坐标或账号凭据。AI 只能解释现有证据，不能补齐缺失数据或验证账号可用性。技术总结可在浏览器缓存 24 小时；可选问卷仅保存在页面内存，刷新清除。服务器及托管日志由部署者说明与管理。
+
+## 项目来源与许可
+
+资源支持：全球 AI Token 综合对比 [tokenplan.vip](https://tokenplan.vip)。
+
+MIT License，Copyright © yacuo / CheckCC。使用、修改或再分发时保留原始版权与许可声明及项目来源：[yacuo/check-cc](https://github.com/yacuo/check-cc)。公开部署建议保留页脚来源，方便访问者找到原项目。

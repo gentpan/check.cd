@@ -1,152 +1,124 @@
-<!-- CheckCC English project documentation for open-source users, covering project purpose, online demo, detection capabilities, and deployment. -->
-# CheckCC | Claude Code Environment Check, Account Suspension Risk & Runtime IP Reputation
+# CheckCC | Network and Browser Environment Checks
 
 [English](README.en.md) | [中文](README.md)
 
-<p align="center">
-  <img src="./docs/images/en/checkcc-homepage.png?v=070801" alt="CheckCC homepage" width="900" />
-</p>
+[check.cd](https://check.cd) records the network exit reaching this site and browser-reported settings and capabilities. It also provides optional location confirmation, public eligibility checks and Claude's official service status. It does not access Claude accounts, certify account safety or predict suspension probability.
 
-[CheckCC.org](https://checkcc.org) is a Claude runtime environment checker and account-risk analysis tool for users who are creating a Claude account, subscribing to Claude Pro, applying for Claude API access, using Claude Code, or concerned about account restrictions, subscription failures, and high-risk environments.
+Upstream: [yacuo/check-cc](https://github.com/yacuo/check-cc). Images in `docs/images/` show historical interfaces and are not evidence of current features or accuracy.
 
-The project analyzes browser fingerprint, system timezone, language preferences, Intl Locale, User-Agent, runtime container, device environment, network exit, and regional profile signals to identify environment conflicts. It helps users detect high-risk Claude environments, pre-restriction anomaly signals, account limitation risk, Claude Pro subscription risk, Claude API application risk, and Claude Code runtime risk before taking action.
+## Reading the results
 
-## Official website: <https://checkcc.org>
+- **Coverage**: the proportion of currently enabled checks that returned data, not a pass rate, accuracy measurement or account safety score.
+- **Observed**: values from this connection or reported by the browser, describing this sampling session.
+- **Inferred**: IP geolocation, font hints and platform comparisons have source and capability limits; they do not prove physical location or account eligibility.
+- **Unknown**: unconfigured intelligence, fields unavailable under a plan, permissions, timeouts and conflicting sources stay unknown, never clean or zero risk.
 
-- GitHub repository: <https://github.com/yacuo/check-cc>
+The enabled configuration in `src/detection/config/signals.ts` determines the check count. Language, fonts, timezone, screen size, low core counts, touch, software graphics, blocked Canvas/audio and empty plugin lists are not evidence of suspension risk. Do not change language, disguise timezone or weaken privacy to improve a result.
 
-### Coming soon: a one-click desktop repair app for Claude environments
+See the [detection accuracy and testing guide](docs/detection-accuracy.md) for data acquisition, limitations, regression tests and real-browser acceptance. Passing automated tests does not measure real-world geolocation accuracy or suspension prediction.
 
-#### Star this project to receive the desktop repair app release update first.
+## Scope and data sources
 
-#### Free desktop app for macOS / Windows / Linux — now in private beta
-
-Want early access? Star the project and stay tuned.
-
-<p align="center">
-  <img src="https://checkcc.org/Check-CC-Lock.png" alt="Check CC Lock desktop app preview" width="900" />
-</p>
-
-## Resource Support
-
-Development resources and AI token usage for this project are sponsored by 全球 AI Token 综合对比 <https://tokenplan.vip> (tokenplan.vip).
-
-## Screenshots
-
-### Detection signals
-
-<p align="center">
-  <img src="./docs/images/en/checkcc-detection-signals.png?v=070801" alt="CheckCC detection signals" width="900" />
-</p>
-
-| Detection principles | Supported regions |
+| Area | Acquisition and limits |
 | --- | --- |
-| <img src="./docs/images/en/checkcc-detection-principles.png?v=070801" alt="CheckCC detection principles" width="430" /> | <img src="./docs/images/en/checkcc-supported-regions.png?v=070801" alt="CheckCC supported regions" width="430" /> |
+| Visit exit | The actual connection or an explicitly configured trusted proxy header identifies the public address reaching this site. If unknown, it remains unavailable rather than using the server's own exit. |
+| IP intelligence | The server uses IPinfo's authorized API. Lite supplies basic country and ASN data; other fields are used only when the licensed plan and response supply them. Without a token, a confirmed exit remains available and intelligence stays unknown. |
+| WebRTC | Configured STUN services yield candidate addresses and sampling states. Different addresses can result from dual-stack networking, NAT, split routing or other paths; they are not automatically leaks. No candidates do not prove that no other path exists. |
+| Browser and device | Local UA, available UA-CH, languages, Intl, timezone, CSS screen pixels, logical processors, approximate memory and touch. Fonts and Emoji are heuristic hints; Canvas, WebGL and offline audio diagnose capabilities. |
+| Runtime and comparisons | Explicit automation markers, permissions and storage state. Dependent probes finish before comparisons run. Differences are technical observations, not account decisions. |
+| Actual location | Requested only after a click and permission. Coordinates are matched against local country boundaries inside the page. Coarse, border-adjacent and unmatched readings stay uncertain. |
+| Eligibility context | A skippable questionnaire compares user answers with public regional, product, payment and verification conditions. The browser cannot reconstruct registration history or suspension causes. |
+| Official status | Public Claude status data. A normal service status does not guarantee personal access and is not a browser-to-Claude connectivity test. |
 
-## CheckCC WeChat Feedback Groups
+The current IPinfo integration supplies no site-defined purity score, suspension probability or AI subscription eligibility certification. Missing fields are not invented. Regional rules retain source, product and effective-date distinctions; automatic news updates do not change eligibility rules.
 
-| Group 2 |
-| :---: |
-| <img src="https://cdn.ddkk.com/images/weixin/checkcc/081002.png" alt="CheckCC WeChat feedback group 2" width="220" /> |
+## Stack and pages
 
-## Overview
+TanStack Start / TanStack Router, React, TypeScript, Vite / Nitro for Node.js, Tailwind CSS and pnpm. The default build is not static-only; other hosting targets require a configured and verified Nitro adapter.
 
-[CheckCC](https://checkcc.org) is suitable for learning, secondary development, and self-hosting. The project focuses on environment risk hints before and after Claude usage. It does not read Claude account content and does not replace official Claude or Anthropic judgments.
+- `/`: environment checks and optional location and eligibility context.
+- `/articles`: regional, payment, verification, network and usage explainers.
+- `/news` and `/news/<id>`: sources, publication dates and known effective dates.
+- `/status` and `/status/<id>`: official Claude components, incidents and timelines.
+- `/admin`: news publication, drafts and update settings.
+- `/api/news-refresh`: protected POST endpoint for an external scheduler, requiring `Authorization: Bearer <ADMIN_TOKEN>`. GET does not trigger an update.
 
-**If you use this project for secondary development, redeployment, or derivative releases, please retain the original copyright, open-source license notice, and project source: <https://github.com/yacuo/check-cc.git>**
+The interface uses white/orange and black/orange themes. Buttons, labels and cards use native `corner-shape: squircle`, falling back to ordinary corners at `0.54 × --sq-r`. Copy resources cover Simplified Chinese, Cantonese, Russian and English; the current routes determine exposed language entries.
 
-## How it works
+## Local development and validation
 
-Claude account risk is not determined by a single IP address or region. It is shaped by a multi-signal environment profile that includes browser fingerprint, system timezone, language preferences, network exit, runtime container, device environment, and payment context. [CheckCC](https://checkcc.org) includes 40+ environment detection dimensions and combines client-side environment sampling, server-side request analysis, IP intelligence, runtime feature recognition, and signal-consistency checks into a readable risk assessment for Claude account restriction risk, Claude Pro subscription risk, Claude API application risk, and Claude Code runtime risk.
-
-Core detection dimensions include:
-
-- **Browser language**: checks whether the preferred browser language matches the expected region.
-- **System timezone**: checks whether the timezone is consistent with the regional profile.
-- **Intl Locale**: checks whether JavaScript internationalization settings expose unusual language or region traits.
-- **User-Agent**: identifies browser, operating system, and client container characteristics.
-- **Runtime container**: detects WebView, automation-like environments, or non-standard clients.
-- **Signal consistency**: evaluates whether language, timezone, region, and browser signals conflict with each other.
-
-These signals cannot prove that an account is safe or will be restricted, but they can help users detect obvious environment profile conflicts early.
-
-## Reducing ban risk
-
-[CheckCC](https://checkcc.org) results are for reference only and do not represent official conclusions from Claude or Anthropic. Before using Claude, Claude Code, Claude Pro, or applying for Claude API access, you can check your environment first.
-
-General suggestions:
-
-- Keep IP, system timezone, browser language, and account region as consistent as possible.
-- Avoid frequently switching countries, proxy nodes, devices, or browser environments.
-- Avoid signing in through WebView, automated browsers, unusual clients, or unstable containers.
-- Check the environment before subscribing to Claude Pro, applying for Claude API, or using Claude Code.
-- If high-risk signals are detected, adjust the environment before signing in, subscribing, or applying for related services.
-- Prefer stable long-term network exits and consistent device environments.
-
-## Tech stack
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- pnpm
-
-## Features
-
-- 40+ environment signals and risk hints
-- Browser-side environment sampling and runtime feature recognition
-- Pre-use environment checks for Claude Web, Pro, API, and Claude Code
-- Multilingual page structure and responsive UI
-- Suitable for learning, secondary development, and self-hosting
-
-## Privacy
-
-By default, the project only performs local browser environment checks:
-
-- No Claude login required
-- No Claude account access
-- No password access
-- No Cookie access
-- No chat content access
-- No default upload of detection results
-
-## Quick start
+Requires **Node.js 22.18+** and pnpm.
 
 ```bash
-pnpm install
+cp .env.example .env.local
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open: <http://localhost:3000>
-
-## Build
+Open [localhost:3000](http://localhost:3000). A loopback connection may provide no confirmed public visitor exit; unknown exit/intelligence is expected locally, while browser sampling can still run.
 
 ```bash
+pnpm typecheck
+pnpm test
 pnpm build
 pnpm start
 ```
 
-## Self-hosting
+`pnpm dev` and `pnpm start` load `.env.local`; production can inject environment variables directly. Output is `.output`, with entry point `.output/server/index.mjs`. Never prefix server secrets with `VITE_` or commit `.env.local`.
 
-You can deploy this project to Vercel, Cloudflare Pages, Netlify, or your own server. You can also extend the detection rules, UI, and deployment workflow as needed.
+## Server configuration
 
-## Use cases
+| Variable | Purpose |
+| --- | --- |
+| `IPINFO_TOKEN` | Optional token for IPinfo's authorized API. Without it, no intelligence request is made; a confirmed exit remains available. |
+| `IPINFO_TIER` | Defaults to `lite`. Accepts `lite`, `core`, `plus`, `max`; must match the authorized plan. Missing country, type or flag fields stay unknown. |
+| `TRUST_PROXY_HEADER` | Empty by default, trusting only the actual connection. Set `x-real-ip`, `cf-connecting-ip` or `x-forwarded-for` only when the sole trusted ingress overwrites it and direct origin access is blocked. |
+| `ANTHROPIC_API_KEY` | Optional model access for manual technical summaries/annotations and enabled news/status processing. Without it, no model call is made; rule explanations are distinguished from AI. |
+| `ANTHROPIC_MODEL` | Model identifier; see `.env.example` for the default and choose a model actually available to the deployment account. |
+| `ADMIN_TOKEN` | Random value of at least 32 characters for administration and protected updates. |
+| `NEWS_AUTO_UPDATE` | Initial automatic-news setting; saved admin settings take precedence afterward. |
+| `NEWS_DATA_PATH` | News store path, default `data/news.json`; use persistent storage in production. |
 
-- Learning browser environment detection
-- Studying Claude runtime environment risk signals
-- Building a personal environment checker
-- Using it as a base for secondary development
+A trusted ingress must **replace** client-supplied headers with exactly one confirmed public address. The application does not pick a public entry from an arbitrary forwarded chain; comma-separated chains are rejected. Enabling header trust does not authenticate a proxy. Firewall rules, listener binding and reverse-proxy configuration must enforce the trust boundary. With Cloudflare, the ingress must validate official proxy ranges before forwarding the real client address.
 
-## Disclaimer
+## Docker and VPS deployment
 
-[CheckCC](https://checkcc.org) provides risk hints based on local browser environment signals only. It does not represent official Claude or Anthropic judgments. Do not use the result as the only basis for account safety, subscription status, or appeal decisions.
+The project includes `Dockerfile` and `compose.yaml`:
 
-## License
+```bash
+docker compose up -d --build
+docker compose logs --tail=100 checkcd
+```
 
-This project is open-sourced under the MIT License. Copyright © yacuo / CheckCC.
+Compose reads `.env.local`, binds the application to host `127.0.0.1:3000` and persists the news store in the `news-data` volume. Expose it through an HTTPS reverse proxy. Configure `TRUST_PROXY_HEADER` for the actual ingress; do not present Docker or private proxy addresses as the visitor's public exit.
 
-You may use, modify, and redistribute this project freely.
+The existing VPS layout uses a dedicated systemd service and Caddy. `deploy/checkcd.caddy` is a template; verify ingress trust before using it.
 
-Any copy, secondary development version, self-hosted site, or substantial portion of the project must retain the original copyright and license notice, and credit the source: <https://github.com/yacuo/check-cc.git>
+- Service: `/etc/systemd/system/checkcd.service`.
+- Server configuration: `/etc/checkcd.env`, administrator-readable only.
+- Releases: `/opt/checkcd/releases`; `/opt/checkcd/current/.output` selects the active build.
+- Persistent data: `/var/lib/checkcd/news.json`, writable by the `checkcd` service user.
+- Node: `/opt/checkcd/node/bin/node`.
+- Existing Caddy site configuration: `/etc/caddy/ip-projects-ogden.caddy`.
 
-If you redeploy this project, please keep the footer credit or repository link so visitors can find the original project.
+Place a new `.output` in a separate release, switch the `current` symlink and restart `checkcd`. Keep credentials and news outside releases. After deployment, check pages, health, visitor-address provenance and unknown/error handling. Source changes do not imply a production deployment.
+
+## News and service status
+
+The persistent Node process checks the news schedule every minute. The default interval is 24 hours; administration supports 6–168 hours. External schedulers can use the protected POST endpoint. Search and drafting require a configured model; non-official sources enter review and failures preserve published content. Titles open local detail pages with original sources at the end. Search coverage is not the entire web.
+
+Persist the news store and keep one Node process responsible for writing. Multiple instances, serverless or sleeping hosts need shared storage and an external scheduler. Local timers do not continue while the application is stopped.
+
+`/status` queries official `status.claude.com` APIs with caching and concurrent-request merging, refreshing while the page is visible. Failed refreshes mark historical data stale; an initial failure stays unknown. Chinese translations persist in `status-translations.json` beside the news store. Translation failures are disclosed and original sources remain available.
+
+## Privacy
+
+Basic browser sampling needs no Claude login and reads no chats, passwords or account cookies. Configured IPinfo requests send the queried public address to that provider; WebRTC contacts STUN services. Geolocation runs only after a click and permission, with coordinates matched locally, never sent to this server or AI or persisted.
+
+Technical summaries and individual AI annotations run **only after the corresponding button is clicked**. They submit relevant technical findings, excluding optional answers, location coordinates and account credentials. AI can explain existing evidence, not fill missing measurements or verify account availability. Summaries may be cached in the browser for 24 hours; optional answers remain in page memory and clear on reload. Deployment operators manage and disclose server/hosting logs.
+
+## Attribution and license
+
+Resource support: [tokenplan.vip](https://tokenplan.vip).
+
+MIT License, Copyright © yacuo / CheckCC. Retain original copyright, license notices and source attribution when using, modifying or redistributing: [yacuo/check-cc](https://github.com/yacuo/check-cc). Public deployments are encouraged to keep a footer source link.

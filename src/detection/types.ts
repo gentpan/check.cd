@@ -3,12 +3,17 @@ export type RegionCode = "auto" | "cn" | "ru" | "ir";
 export type AccessStatus = "supported" | "possibly_supported" | "restricted" | "unsupported" | "unknown";
 export type SignalSource = "browser" | "server" | "combined";
 
+// 专业检测矩阵的五大信号组：网络与出口、浏览器身份、设备指纹、运行时与自动化、一致性校验。
+export type SignalCategory = "network" | "browser" | "device" | "runtime" | "consistency";
+
 export type ProductAccess = {
   web: AccessStatus;
   pro: AccessStatus;
   api: AccessStatus;
   payment: AccessStatus;
 };
+
+export type SignalVerdict = "hit" | "warn" | "clear" | "info" | "pending" | "unknown";
 
 export type SignalResult = {
   id: string;
@@ -18,6 +23,10 @@ export type SignalResult = {
   weight: number;
   contribution: number;
   source: SignalSource;
+  category: SignalCategory;
+  // Missing or blocked APIs are unknown measurements, never a clean result.
+  availability?: "available" | "unavailable";
+  evidence?: "observed" | "inferred";
 };
 
 export type RegionProfile = {
@@ -63,7 +72,7 @@ export type IpIntelligence = {
 
 export type CheckResponse = {
   app: "Check Claude";
-  domain: "checkcc.org";
+  domain: "check.cd";
   region: RegionCode;
   matchedRegion: Exclude<RegionCode, "auto"> | null;
   detectedCountry: string | null;

@@ -16,7 +16,7 @@ export type {
 
 export { runnerConfig } from "./runner";
 export { serviceConfig } from "./services";
-export { signalConfig } from "./signals";
+export { signalConfig, signalCategoryOrder } from "./signals";
 export { stepConfig } from "./steps";
 
 export const detectionConfig: DetectionConfig = {
