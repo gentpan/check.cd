@@ -112,7 +112,7 @@ export function SiteFrame({ children, landing = true }: { children: ReactNode; l
       </dialog>
 
       <div className="pt-16 site-shell-content">
-        <header className={`site-header fixed left-0 top-0 z-50 w-full border-b border-line bg-canvas${landing ? " squircle landing-nav" : ""}`}>
+        <header className={`site-header fixed left-0 top-0 z-50 w-full border-b border-line bg-canvas${landing ? " landing-nav" : ""}`}>
           <div className="site-container site-header-inner flex h-16 items-center justify-between gap-4">
             <button ref={drawerButton} type="button" onClick={() => { setLocaleOpen(false); setOpen(true); }} aria-label={copy.nav.menu} aria-controls={drawerId} aria-expanded={open} aria-haspopup="dialog" className="squircle sq-icon-button site-menu-button grid size-10 place-items-center border border-line text-ink lg:hidden">
               <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>

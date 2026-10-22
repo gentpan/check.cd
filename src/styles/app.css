@@ -854,8 +854,8 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 }
 .landing-site .site-container { max-width: 1120px; }
 .landing-site .landing-nav {
-  --sq-r: 22px; top: 16px; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 40px); max-width: 1056px; border: 1px solid var(--line);
+  top: 0; left: 0; transform: none;
+  width: 100%; max-width: none; border: 0; border-bottom: 1px solid var(--line);
   background: var(--surface); box-shadow: var(--home-shadow);
 }
 .landing-nav > .site-container { position: relative; height: 76px; padding: 0 24px; }
@@ -864,7 +864,7 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 .landing-nav .brand-glass > span { font-size: 22px; }
 .landing-nav .brand-glass img { width: 40px; height: 40px; }
 .landing-nav .site-nav-links { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); gap: 20px; }
-.landing-site .landing-nav { --sq-r: 22px; box-shadow: 0 1px 2px rgb(0 0 0 / .03), 0 12px 36px -18px color-mix(in srgb, var(--ink) 22%, transparent); }
+.landing-site .landing-nav { box-shadow: 0 1px 2px rgb(0 0 0 / .03), 0 12px 36px -18px color-mix(in srgb, var(--ink) 22%, transparent); }
 .landing-nav .sq-icon-button { border-color: transparent; background: var(--surface-muted); }
 .landing-site .locale-menu { box-shadow: var(--home-shadow); }
 .landing-hero { padding-top: 100px; padding-bottom: 48px; text-align: center; }
@@ -957,7 +957,6 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 .minimal-footer .footer-landscape a:hover { color: var(--accent); }
 .minimal-footer .footer-landscape-legal > div { border-top: 1px solid var(--line); padding-top: 20px; padding-bottom: 24px; color: var(--muted); }
 @media (max-width: 700px) {
-  .landing-site .landing-nav { top: 12px; width: calc(100% - 24px); --sq-r: 22px; }
   .landing-nav > .site-container { height: 68px; padding: 0 12px; gap: 8px; }
   .landing-nav .brand-glass { gap: 8px; }
   .landing-nav .brand-glass > span { font-size: 18px; }
