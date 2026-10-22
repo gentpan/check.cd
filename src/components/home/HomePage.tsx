@@ -90,7 +90,7 @@ export function HomePage({ locale = "zh" }: { locale?: LocaleCode }) {
       <main className="tool-home landing-home">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <section className="site-container landing-hero" aria-labelledby="home-title">
-          <div className="hero-badge squircle"><img src="/logo.svg?v=eight-rays" width="16" height="16" alt="" />{text.badge}</div>
+          <div className="hero-badge squircle"><img src="/logo.svg?v=bent-mark" width="16" height="16" alt="" />{text.badge}</div>
           <h1 id="home-title">{text.title}<br /><span>{text.emphasis}</span></h1>
           <p className="hero-description">{text.description}</p>
           <div className="hero-actions">

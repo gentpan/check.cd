@@ -3,7 +3,7 @@ export type LogoStyle = "wordmark" | "seal" | "monogram" | "modern" | "linked" |
 export function Brand({ variant = "wordmark", large = false }: { variant?: LogoStyle; large?: boolean }) {
   if (variant === "glass") {
     return <span className={`brand-glass${large ? " brand-glass-large" : ""}`} aria-label="Check Claude · check.cd">
-      <img src="/logo.svg?v=eight-rays" alt="" width="36" height="36" />
+      <img src="/logo.svg?v=bent-mark" alt="" width="36" height="36" />
       <span>Check <strong><b>C</b>lau<b>d</b>e</strong></span>
     </span>;
   }

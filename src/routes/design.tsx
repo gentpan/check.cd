@@ -23,15 +23,15 @@ function LoadingPreview() {
     <p className="mt-3 text-base leading-7 text-muted">八段等长光芒，按顺时针依次点亮；每秒循环一次。</p>
     <div className="mt-8 grid gap-5 md:grid-cols-3">
       <section className="squircle sq-card border border-line bg-surface p-6">
-        <h2 className="text-base font-medium">旋转图标</h2>
-        <div className="flex min-h-40 items-center justify-center"><Spinner size={80}/></div>
-        <p className="text-sm leading-6 text-muted">与站点 Logo 一致的八段放射轮廓；浅色和深色背景均保持橙色，减少动态效果时显示完整图标。</p>
+        <h2 className="text-base font-medium">静态 Logo</h2>
+        <div className="flex min-h-40 items-center justify-center"><img src="/logo.svg?v=bent-mark" width="112" height="112" alt="带弯折轮廓的静态 Logo" /></div>
+        <p className="text-sm leading-6 text-muted">静态图形保留参考图中间的弯折轮廓，用于导航、页脚水印与网站图标。</p>
       </section>
       <section className="squircle sq-card border border-line bg-surface p-6">
         <h2 className="text-base font-medium">按钮预览</h2>
         <div className="flex min-h-40 items-center justify-center">
           <button type="button" onClick={()=>setLoading(true)} disabled={loading} aria-busy={loading} className="squircle sq-large-button inline-flex h-12 min-w-40 items-center justify-center gap-2 border border-accent px-5 text-base text-accent hover:bg-accent-bg disabled:cursor-wait">
-            {loading ? <Spinner size={24}/> : <img src="/logo.svg?v=eight-rays" width="24" height="24" alt=""/>}
+            {loading ? <Spinner size={24}/> : <img src="/logo.svg?v=bent-mark" width="24" height="24" alt=""/>}
             <span aria-live="polite">{loading ? '加载中…' : '点击预览'}</span>
           </button>
         </div>

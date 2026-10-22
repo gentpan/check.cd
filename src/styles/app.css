@@ -780,7 +780,7 @@ a.news-card:hover, .news-card:has(a:hover) { border-color:var(--accent); }
 .footer-landscape-art { position:relative; isolation:isolate; }
 .footer-brand { display:inline-flex; align-items:center; gap:12px; color:#fff; font-size:30px; line-height:1.2; letter-spacing:-.04em; font-weight:500; }
 .footer-brand strong { color:rgba(255,255,255,.78); font-weight:500; }
-.footer-brand-symbol,.footer-logo-watermark { display:block; background:#fff; mask:url('/logo.svg?v=eight-rays') center / contain no-repeat; -webkit-mask:url('/logo.svg?v=eight-rays') center / contain no-repeat; }
+.footer-brand-symbol,.footer-logo-watermark { display:block; background:#fff; mask:url('/logo.svg?v=bent-mark') center / contain no-repeat; -webkit-mask:url('/logo.svg?v=bent-mark') center / contain no-repeat; }
 .footer-brand-symbol { width:38px; height:38px; flex:none; }
 .footer-logo-watermark { position:absolute; top:56%; left:50%; width:clamp(160px,32vw,460px); aspect-ratio:1; transform:translate(-50%,-50%); opacity:.42; pointer-events:none; }
 @media(max-width:700px) { .footer-brand { font-size:26px; } .footer-brand-symbol { width:32px; height:32px; } .footer-logo-watermark { width:22.4%; } }
@@ -1110,12 +1110,21 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 .method-policy p { max-width: 76ch; font-size: 14px; line-height: 1.9; color: var(--muted); }
 .method-policy > div { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 20px; font-size: 13px; color: var(--accent); }
 .landing-site .page-content aside.sq-card > h2 + p { margin-top: 16px; }
-/* Keep the original landscape in full, with readable links above it at every width. */
-.site-shell .scenic-footer .footer-landscape-info, .site-shell .scenic-footer .footer-landscape-legal { position: relative; }
-.site-shell .scenic-footer .footer-landscape-art { overflow: hidden; }
-.site-shell .scenic-footer .footer-landscape-image { width: 100%; height: auto; aspect-ratio: 30 / 7; }
-.site-shell .scenic-footer .footer-logo-watermark { top: 56%; }
-.site-shell .scenic-footer .footer-landscape-legal { background: var(--canvas); }
+/* Every footer item overlays the original landscape; content controls its height. */
+.site-shell .scenic-footer .footer-landscape { display: flex; flex-direction: column; justify-content: space-between; min-height: clamp(420px, 23.333vw, 600px); background: #183442; }
+.site-shell .scenic-footer .footer-landscape-art { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.site-shell .scenic-footer .footer-landscape-image { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.site-shell .scenic-footer .footer-landscape::before { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgb(6 18 26 / .8), rgb(6 18 26 / .62) 58%, rgb(6 18 26 / .8)); }
+.site-shell .scenic-footer .footer-landscape-info, .site-shell .scenic-footer .footer-landscape-legal { position: relative; inset: auto; z-index: 2; background: transparent; }
+.site-shell .scenic-footer .footer-landscape-info > .footer-content-grid { padding-top: 40px; padding-bottom: 40px; }
+.site-shell .scenic-footer .footer-logo-watermark { top: 66%; width: clamp(96px, 12vw, 180px); opacity: .14; }
+.site-shell .scenic-footer .footer-brand, .site-shell .scenic-footer .footer-menu, .site-shell .scenic-footer .footer-menu h2 { color: #fff; }
+.site-shell .scenic-footer .footer-brand strong, .site-shell .scenic-footer .footer-menu a[aria-current], .site-shell .scenic-footer .site-footer-languages a[aria-current] { color: #ffbd91; }
+.site-shell .scenic-footer .footer-brand-symbol { background: #ffbd91; }
+.site-shell .scenic-footer .footer-landscape p, .site-shell .scenic-footer .site-footer-languages a { color: #e7ede9; }
+.site-shell .scenic-footer .footer-landscape a:hover { color: #ffcead; }
+.site-shell .scenic-footer .footer-landscape a:focus-visible { outline-color: #ffcead; }
+.site-shell .scenic-footer .footer-landscape-legal > .site-container { color: #e7ede9; border-top-color: rgb(255 255 255 / .22); }
 @media (max-width: 759px) {
   .news-list, .status-page .status-events { grid-template-columns: minmax(0, 1fr); }
   .method-policy { padding: 24px; }

@@ -1,12 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1100" fill="none">
   <g fill="#ff630d">
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(0 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(45 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(90 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(135 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(180 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(225 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(270 180 180)" />
-    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(315 180 180)" />
+    <path d="M380 458 200 284Q194 278 200 272L266 211Q272 205 278 211L494 428V124Q494 116 502 116H594Q602 116 602 124V429L817 213Q824 206 831 213L892 273Q898 279 892 285L682 502H980Q988 502 988 510V604Q988 612 980 612H686L893 824Q900 831 893 838L832 900Q825 907 818 900L675 759Q642 726 642 680V567C642 519 610 482 568 464H400Q388 464 380 458Z"/>
+    <path d="M114 502H542C576 502 602 531 602 567V990Q602 998 594 998H502Q494 998 494 990V687L279 900Q272 907 265 900L201 839Q194 832 201 825L414 612H114Q106 612 106 604V510Q106 502 114 502Z"/>
   </g>
 </svg>
