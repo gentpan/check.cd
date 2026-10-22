@@ -780,7 +780,7 @@ a.news-card:hover, .news-card:has(a:hover) { border-color:var(--accent); }
 .footer-landscape-art { position:relative; isolation:isolate; }
 .footer-brand { display:inline-flex; align-items:center; gap:12px; color:#fff; font-size:30px; line-height:1.2; letter-spacing:-.04em; font-weight:500; }
 .footer-brand strong { color:rgba(255,255,255,.78); font-weight:500; }
-.footer-brand-symbol,.footer-logo-watermark { display:block; background:#fff; mask:url('/logo.svg') center / contain no-repeat; -webkit-mask:url('/logo.svg') center / contain no-repeat; }
+.footer-brand-symbol,.footer-logo-watermark { display:block; background:#fff; mask:url('/logo.svg?v=eight-rays') center / contain no-repeat; -webkit-mask:url('/logo.svg?v=eight-rays') center / contain no-repeat; }
 .footer-brand-symbol { width:38px; height:38px; flex:none; }
 .footer-logo-watermark { position:absolute; top:56%; left:50%; width:clamp(160px,32vw,460px); aspect-ratio:1; transform:translate(-50%,-50%); opacity:.42; pointer-events:none; }
 @media(max-width:700px) { .footer-brand { font-size:26px; } .footer-brand-symbol { width:32px; height:32px; } .footer-logo-watermark { width:22.4%; } }

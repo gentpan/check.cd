@@ -16,7 +16,7 @@ export const Route = createRootRoute({
       { rel: "preload", href: "/fonts/anthropic-sans.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       { rel: "preload", href: "/fonts/anthropic-serif.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg?v=glass-orange" },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg?v=eight-rays" },
     ],
   }),
   shellComponent: RootDocument,

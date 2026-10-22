@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" fill="none"><g stroke="#ff630d" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"><path d="M40 180H180M82 82l98 98-98 98"/><path d="M180 40v46M248 112l34-34M274 180h46M248 248l34 34M180 274v46"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" fill="none">
+  <g fill="#ff630d">
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(0 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(45 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(90 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(135 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(180 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(225 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(270 180 180)" />
+    <rect x="164" y="32" width="32" height="104" rx="4" transform="rotate(315 180 180)" />
+  </g>
+</svg>
