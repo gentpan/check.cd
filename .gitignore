@@ -56,3 +56,6 @@ yarn-error.log*
 /data/
 
 /.data/
+
+# Generated deployment identity
+/public/version.json
