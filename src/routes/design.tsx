@@ -6,7 +6,7 @@ export const Route = createFileRoute('/design')({
   component:LoadingPreview,
 });
 function Spinner({size=24}:{size?:number}) {
-  return <img src="/logo-loading.svg" width={size} height={size} alt="" aria-hidden="true" />;
+  return <img src="/logo-loading.svg?v=brand-arrow-2" width={size} height={size} alt="" aria-hidden="true" className="shrink-0" />;
 }
 function LoadingPreview() {
   const [loading,setLoading] = useState(false);
@@ -20,12 +20,12 @@ function LoadingPreview() {
       <p className="mt-5 text-xs leading-6 text-muted">检查边框、阴影和键盘焦点是否完整；同一页面可切换白橙与黑橙主题。</p>
     </section>
     <h2 className="mt-8 text-3xl font-semibold">Logo Loading 样式</h2>
-    <p className="mt-3 text-base leading-7 text-muted">八段短线，一段橙色依次点亮；每秒顺时针转一圈。</p>
+    <p className="mt-3 text-base leading-7 text-muted">保留 Logo 的箭头与五条光芒，八段橙色依次点亮；每秒循环一次。</p>
     <div className="mt-8 grid gap-5 md:grid-cols-3">
       <section className="squircle sq-card border border-line bg-surface p-6">
         <h2 className="text-base font-medium">旋转图标</h2>
         <div className="flex min-h-40 items-center justify-center"><Spinner size={80}/></div>
-        <p className="text-sm leading-6 text-muted">左侧箭头拆成三段短线，与原来的五条光芒组成八段。</p>
+        <p className="text-sm leading-6 text-muted">与导航 Logo 使用相同轮廓；浅色和深色背景均保持橙色，减少动态效果时显示完整图标。</p>
       </section>
       <section className="squircle sq-card border border-line bg-surface p-6">
         <h2 className="text-base font-medium">按钮预览</h2>

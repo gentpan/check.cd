@@ -1,4 +1,4 @@
-// Compact shared footer. Policy lists stay inspectable without repeating a long page.
+// Shared footer keeps the original landscape artwork and inspectable policy lists.
 import { useRouterState } from "@tanstack/react-router";
 import { Flag } from "@/components/Flag";
 import { claudeAccessCopy } from "@/i18n/claude-access";
@@ -85,8 +85,7 @@ export function SiteFooter({ locale = "zh", minimal = true }: { locale?: LocaleC
             <nav aria-label={copy.menuTitle} className="footer-menu"><h2>{copy.menuTitle}</h2>{menuLinks.map((item) => <a key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>{item.label}</a>)}</nav>
             <nav aria-label={copy.helpTitle} className="footer-menu"><h2>{copy.helpTitle}</h2>{helpLinks.map((item) => <a key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>{item.label}</a>)}</nav>
           </div></div>
-          {!minimal && <div className="footer-landscape-art"><img src="/footer-backgrounds/cartoon-valley-short-20261014.webp" alt="" width="1920" height="448" loading="lazy" decoding="async" className="footer-landscape-image" /><span className="footer-logo-watermark" aria-hidden="true" /></div>}
-          {!minimal && <div className="footer-landscape-shade" aria-hidden="true" />}
+          <div className="footer-landscape-art"><img src="/footer-backgrounds/cartoon-valley-short-20261014.webp" alt="" width="1920" height="448" loading="lazy" decoding="async" className="footer-landscape-image" /><span className="footer-logo-watermark" aria-hidden="true" /></div>
           <div className="footer-landscape-legal"><div className="site-container">{copy.legal}</div></div>
         </div>
       </footer>

@@ -896,7 +896,7 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 .landing-checker .tool-report-state { border: none; padding: 0; font-size: 11px; }
 .landing-checker .tool-report-title { padding: 24px 0 20px; }
 .landing-checker h2 { font-size: 24px; line-height: 1.3; font-weight: 500; letter-spacing: -.48px; }
-.landing-checker .tool-report-title p { font-size: 14px; margin-top: 8px; }
+.landing-checker .tool-report-title p { font-size: 14px; margin-top: 14px; line-height: 1.8; }
 .checker-start { --sq-r: 20px; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); background: var(--surface-muted); color: var(--accent); font-size: 24px; cursor: pointer; flex-shrink: 0; }
 .checker-start:hover { border-color: var(--accent); }
 .landing-checker .tool-report-info { font-size: 11px; padding-bottom: 16px; }
@@ -930,7 +930,7 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 .landing-article-list h4 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; font-size: 16px; line-height: 1.6; margin-top: 8px; font-weight: 500; }
 .landing-article-list h4 > span { color: var(--muted); }
 .landing-article-list a:hover h4 { color: var(--accent); }
-.landing-article-list p { margin-top: 8px; font-size: 13px; line-height: 1.85; color: var(--muted); }
+.landing-article-list p { margin-top: 14px; font-size: 13px; line-height: 1.85; color: var(--muted); }
 .landing-resource .section-heading + div > div:first-child { margin: 16px 0 0; }
 .landing-resource .section-heading + div > div:first-child p { display: none; }
 .landing-resource .section-heading + div > div:first-child > span { font-size: 10px; line-height: 1.8; }
@@ -939,7 +939,7 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
 .landing-resource .news-card:last-child { border: 0; padding-bottom: 0; }
 .landing-resource .news-card h3 { font-size: 15px; margin-top: 8px; line-height: 1.6; }
 .landing-resource .news-card > div { font-size: 10px; }
-.landing-resource .news-card > p { font-size: 12px; line-height: 1.8; margin-top: 8px; }
+.landing-resource .news-card > p { font-size: 12px; line-height: 1.8; margin-top: 14px; }
 .landing-resource .news-card > p:last-child { display: none; }
 .landing-site #supported-countries { margin-top: 100px; background: var(--surface-muted); border: 0; }
 .landing-site #supported-countries h2 { font-family: var(--font-sans); font-size: 24px; font-weight: 500; letter-spacing: -.48px; }
@@ -1097,4 +1097,33 @@ html { scrollbar-width:thin; scrollbar-color:var(--scrollbar-thumb) var(--canvas
   .purity-dimensions { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 20px; }
   .result-summary-header, .result-summary-body { padding: 20px; }
   .observation-item { grid-template-columns: 1fr; }
+}
+
+
+/* Reading widths and spacing shared by the light and dark themes. */
+.news-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.news-list > *, .status-event, .status-component { min-width: 0; overflow-wrap: anywhere; }
+.status-page .status-events { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.methodology-page .method-section > h2 { margin-bottom: 16px; font-size: 22px; font-weight: 500; line-height: 1.6; }
+.methodology-page .method-section > p { max-width: 76ch; margin-top: 16px; font-size: 14px; line-height: 1.9; color: var(--muted); }
+.method-policy { --sq-r: 22px; margin-top: 40px; padding: 28px 32px; border: 1px solid var(--line); background: var(--surface); }
+.method-policy h2 { margin-bottom: 16px; font-size: 20px; line-height: 1.6; font-weight: 500; }
+.method-policy p { max-width: 76ch; font-size: 14px; line-height: 1.9; color: var(--muted); }
+.method-policy > div { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 20px; font-size: 13px; color: var(--accent); }
+.landing-site .page-content aside.sq-card > h2 + p { margin-top: 16px; }
+/* Keep the original landscape in full, with readable links above it at every width. */
+.site-shell .scenic-footer .footer-landscape-info, .site-shell .scenic-footer .footer-landscape-legal { position: relative; }
+.site-shell .scenic-footer .footer-landscape-art { overflow: hidden; }
+.site-shell .scenic-footer .footer-landscape-image { width: 100%; height: auto; aspect-ratio: 30 / 7; }
+.site-shell .scenic-footer .footer-logo-watermark { top: 56%; }
+.site-shell .scenic-footer .footer-landscape-legal { background: var(--canvas); }
+@media (max-width: 759px) {
+  .news-list, .status-page .status-events { grid-template-columns: minmax(0, 1fr); }
+  .method-policy { padding: 24px; }
+}
+@media (max-width: 480px) {
+  .status-page > .section-heading { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .landing-site .status-page .primary-btn { align-self: flex-start; }
+  .landing-checker .report-body { padding-inline: 14px; }
+  .article-link, .landing-site .page-content .news-card, .prose-card, .faq-card { padding: 20px; }
 }

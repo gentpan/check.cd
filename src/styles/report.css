@@ -32,7 +32,7 @@
 .refined-report .signal-group { padding: 20px; background: var(--canvas); }
 .refined-report .signal-group-header { gap: 14px; padding: 4px 4px 24px; }
 .refined-report .signal-group-title h4 { font-size: 17px; }
-.refined-report .signal-group-description { margin-top: 7px; max-width: 650px; }
+.refined-report .signal-group-description { margin-top: 12px; max-width: 650px; }
 .refined-report .signal-card { padding: 22px 24px; --sq-r: 18px; }
 .refined-report .signal-card-header { align-items: flex-start; }
 .refined-report .signal-card-label { padding-top: 5px; font-size: 14px; }
@@ -104,9 +104,10 @@
 .method-check summary::-webkit-details-marker { display: none; }
 .method-check summary span { color: var(--accent); font-size: 18px; }
 .method-check[open] summary span { transform: rotate(45deg); }
-.method-check dl { display: grid; gap: 18px; padding: 24px 0; font-size: 13px; line-height: 1.9; }
+.method-check dl { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 24px 0; font-size: 13px; line-height: 1.9; }
 .method-check dl > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 24px; }
 .method-check dt { color: var(--muted); }
+.method-check dd { min-width: 0; overflow-wrap: anywhere; }
 .method-check a { color: var(--accent); font-size: 12px; }
 .method-verification { --sq-r: 22px; margin-top: 40px; padding: 32px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; line-height: 1.9; }
 .methodology-page .method-verification h2 { margin: 16px 0 24px; font-size: 23px; font-weight: 500; }
@@ -258,3 +259,29 @@
   .refined-report .signal-card { --sq-r: 15px; padding: 18px 16px; }
   .refined-report .signal-card-annotation { padding: 16px; }
 }
+
+
+/* Narrow cards must reserve a full line for their title before showing status. */
+@media (max-width: 759px) {
+  .landing-checker .refined-report .signal-card-header { flex-direction: column; gap: 12px; }
+  .landing-checker .refined-report .signal-card-title { width: 100%; align-items: flex-start; }
+  .landing-checker .refined-report .signal-card-actions { margin-left: 40px; }
+  .landing-checker .refined-report .signal-card-value { margin-top: 18px; }
+  .landing-checker .refined-report .signal-group-header { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+  .landing-checker .refined-report .result-group-icon { width: 36px; height: 36px; --sq-r: 15px; }
+  .landing-checker .refined-report .signal-group-status { width: auto; margin-left: 0; grid-column: 1 / -1; }
+  .landing-checker .signal-card-footer { flex-wrap: wrap; gap: 12px; }
+  .landing-checker .signal-card-footer .signal-method { flex: 1 1 132px; }
+  .landing-checker .refined-report .report-actions button { flex-basis: 180px; }
+}
+@media (max-width: 480px) {
+  .landing-checker .report-metrics { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .landing-checker .report-metric { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 16px; }
+  .landing-checker .report-metric > span { font-size: 12px; line-height: 1.7; }
+  .landing-checker .report-metric > strong { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; font-size: 28px; }
+  .landing-checker .report-metric p { grid-column: 1; font-size: 11px; }
+  .landing-checker .refined-report > .check-panel.p-5 { padding: 16px; }
+  .landing-checker .refined-report .signal-group { padding: 8px; }
+}
+
+.actual-location .section-heading p { margin-top: 12px; }

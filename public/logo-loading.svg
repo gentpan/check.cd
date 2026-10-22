@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" fill="none">
   <style>
-    .ray{stroke:#ffd0b5;opacity:.65;animation:highlight 1s steps(1,end) infinite}
-    @keyframes highlight{0%{stroke:#ff630d;opacity:1}12.5%,100%{stroke:#ffd0b5;opacity:.65}}
-    @media(prefers-reduced-motion:reduce){.ray{animation:none}.ray:first-child{stroke:#ff630d;opacity:1}}
+    .ray{stroke:#ff630d;opacity:.24;animation:highlight 1s steps(1,end) infinite}
+    @keyframes highlight{0%{opacity:1}12.5%,100%{opacity:.24}}
+    @media(prefers-reduced-motion:reduce){.ray{animation:none;opacity:1}}
   </style>
-  <g stroke-width="32" stroke-linecap="round">
+  <g stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
     <path class="ray" d="M180 40v46"/>
-    <path class="ray" style="animation-delay:-.875s" d="M180 40v46" transform="rotate(45 180 180)"/>
-    <path class="ray" style="animation-delay:-.75s" d="M180 40v46" transform="rotate(90 180 180)"/>
-    <path class="ray" style="animation-delay:-.625s" d="M180 40v46" transform="rotate(135 180 180)"/>
-    <path class="ray" style="animation-delay:-.5s" d="M180 40v46" transform="rotate(180 180 180)"/>
-    <path class="ray" style="animation-delay:-.375s" d="M180 40v46" transform="rotate(225 180 180)"/>
-    <path class="ray" style="animation-delay:-.25s" d="M180 40v46" transform="rotate(270 180 180)"/>
-    <path class="ray" style="animation-delay:-.125s" d="M180 40v46" transform="rotate(315 180 180)"/>
+    <path class="ray" style="animation-delay:-.875s" d="M248 112l34-34"/>
+    <path class="ray" style="animation-delay:-.75s" d="M274 180h46"/>
+    <path class="ray" style="animation-delay:-.625s" d="M248 248l34 34"/>
+    <path class="ray" style="animation-delay:-.5s" d="M180 274v46"/>
+    <path class="ray" style="animation-delay:-.375s" d="M180 180l-98 98"/>
+    <path class="ray" style="animation-delay:-.25s" d="M40 180H180"/>
+    <path class="ray" style="animation-delay:-.125s" d="M82 82l98 98"/>
   </g>
 </svg>

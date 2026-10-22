@@ -35,7 +35,7 @@ export function NewsList({ compact = false }: { compact?: boolean }) {
               : "初始资料已核对；等待首次自动检索"}
         </span>
       </div>
-      <div className={compact ? "grid gap-4 md:grid-cols-3" : "space-y-4"}>
+      <div className={compact ? "grid gap-4 md:grid-cols-3" : "news-list"}>
         {(compact ? items.slice(0, 3) : items).map((item) => (
           <article key={item.id} className="news-card squircle">
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
